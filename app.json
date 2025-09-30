@@ -2,6 +2,19 @@
   "expo": {
     "name": "target",
     "slug": "target",
-    "version": "1.0.0"
+    "scheme": "target",
+    "version": "1.0.0",
+    "android": {
+      "package": "com.gustavocl.target",
+      "edgeToEdgeEnabled": true,
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#3d44cd"
+      }
+    },
+    "plugins": [
+      "expo-router",
+      "expo-font"
+    ]
   }
 }
