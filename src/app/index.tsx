@@ -1,4 +1,4 @@
-import { View } from 'react-native'
+import { View, StatusBar } from 'react-native'
 import { useRouter } from 'expo-router'
 
 import { HomeHeader } from '@/components/HomeHeader'
@@ -35,6 +35,7 @@ export default function Index() {
   return (
     <>
       <View style={{ flex: 1 }}>
+        <StatusBar barStyle='light-content'/>
         <HomeHeader data={summary} />
 
         <List
@@ -47,6 +48,7 @@ export default function Index() {
         />
 
         <View style={{ padding: 24, paddingBottom: 36 }}>
+          
           <Button tittle='Criar nova meta' onPress={() => router.navigate("/target")} />
         </View>
       </View>
