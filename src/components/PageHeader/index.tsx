@@ -8,6 +8,8 @@ import { colors } from "@/theme";
 type Props = {
   title: string;
   subtitle?: string;
+  onPress?: () => void
+  
   rightButton?: {
     onPress: () => void;
     icon: keyof typeof MaterialIcons.glyphMap;

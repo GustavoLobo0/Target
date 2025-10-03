@@ -13,7 +13,7 @@ export function Input({ label, ...rest }: Props) {
       <View style={styles.container}>
         <Text style={styles.label}>{label}</Text>
 
-        <TextInput style={styles.input} {...rest} placeholderTextColor={colors.gray[400]} placeholder="Ex: Viagem para praia, Apple Watch"></TextInput>
+        <TextInput style={styles.input} {...rest} placeholderTextColor={colors.gray[400]} placeholder="Ex: Investir em CDB de 110% no banco XPTO"></TextInput>
       </View>
     </>
   )

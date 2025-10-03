@@ -47,7 +47,7 @@ export default function Index() {
           containerStyle={{ paddingHorizontal: 24 }}
         />
 
-        <View style={{ padding: 24, paddingBottom: 36 }}>
+        <View style={{ padding: 24 }}>
           
           <Button tittle='Criar nova meta' onPress={() => router.navigate("/target")} />
         </View>
