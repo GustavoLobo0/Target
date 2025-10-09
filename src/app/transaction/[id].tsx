@@ -1,17 +1,17 @@
 import { View } from 'react-native'
 import { useState } from 'react'
-import { useLocalSearchParams, router } from 'expo-router'
+import { router } from 'expo-router'
 
 import { PageHeader } from '@/components/PageHeader';
 import { CurrencyInput } from '@/components/CurrencyInput';
 import { Input } from '@/components/Input';
 import { Button } from '@/components/Button';
-import { TransactionType } from '@/components/TransactionType/Transaction';
+import { TransactionType } from '@/components/TransactionType';
 import { TransactionTypes } from '@/utils/TransactionTypes';
 
 export default function transaction() {
   const [type, setType] = useState(TransactionTypes.Input);
-  const params = useLocalSearchParams<{ id: string }>();
+
 
   return (
     <View style={{ flex: 1, padding: 24 }}>

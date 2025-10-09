@@ -26,7 +26,7 @@ export function Transaction({ data, OnRemove }: Props) {
         <MaterialIcons
           name={data.type === TransactionTypes.Input ? "arrow-upward" : "arrow-downward"}
           size={20}
-          color={data.type === TransactionTypes.Input ? colors.green[500] : colors.red[400]} />
+          color={data.type === TransactionTypes.Input ? colors.blue[500] : colors.red[400]} />
 
         <View style={styles.info}>
           <Text style={styles.value}>{data.value}</Text>

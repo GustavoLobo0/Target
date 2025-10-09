@@ -7,15 +7,13 @@ export const styles = StyleSheet.create({
         
     },
     listContent: {
-        gap: 16,
         paddingBottom: 72,
-        paddingTop: 16
     },
     title:{
         marginTop: 24,
         paddingBottom: 16,
         borderBottomWidth: 1,
-        fontSize: 18,
+        fontSize: 16,
         fontFamily: fontFamily.medium,
         borderBottomColor:colors.gray[200],
         color: colors.black
