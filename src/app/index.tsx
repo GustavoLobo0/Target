@@ -1,62 +1,93 @@
-import { useCallback } from 'react'
+import { useCallback, useState } from 'react'
 import { View, StatusBar, Alert } from 'react-native'
 import { useRouter, useFocusEffect } from 'expo-router'
 
-import { HomeHeader } from '@/components/HomeHeader'
-import { Target } from '@/components/Target'
+import { HomeHeader, HomeHeaderProps } from '@/components/HomeHeader'
+import { Target, TargetProps } from '@/components/Target'
 import { List } from '@/components/List'
 import { Button } from '@/components/Button'
 
 import { useTargetDatabase } from '@/database/useTargetDatabase'
-
-const summary = {
-  total: "R$ 1.000,00",
-  output: { label: "Saídas", value: "R$ 1.000,00" },
-  input: { label: "Entradas", value: "R$ 2.000,00" },
-}
-
-const targets = [
-  {
-    id: "1",
-    name: "Viagem para o Rio de Janeiro",
-    current: "R$ 500,00",
-    percentage: "50%",
-    target: "R$ 1.000,00"
-  },
-  {
-    id: "2",
-    name: "puteiro",
-    current: "R$ 500,00",
-    percentage: "50%",
-    target: "R$ 1.000,00"
-  }
-]
+import { Loading } from '@/components/Loading'
+import { colors } from '@/theme'
+import { numberToCurrency } from '@/utils/numberToCurrency'
+import { useTransactionsDatabase } from '@/database/useTransactionsDataBase'
 
 export default function Index() {
+  const [summary, setSummary] = useState<HomeHeaderProps>()
+  const [isFetching, setIsFetching] = useState(true);
+  const [targets, setTargets] = useState([]);
+
   const targetDatabase = useTargetDatabase();
+  const summaryDatabase = useTransactionsDatabase();
+
   const router = useRouter();
 
-async function fetchTargets() {
+async function fetchTargets(): Promise<TargetProps[]> {
     try {
       const response = await targetDatabase.listBySavedValue()
-      console.log(response)
+      return response.map((item) => ({
+        id: String(item.id),
+        name: item.name,
+        current: numberToCurrency(item.current),
+        percentage: item.percentage.toFixed(0) + '%',
+        target: numberToCurrency(item.amount),
+      }))
     } catch (error) {
-      Alert.alert('Erro', 'Nã foi possível carregar as metas.')
+      Alert.alert('Erro', 'Não foi possível carregar as metas.')
       console.log(error)
     }
   }
 
+  async function fetchSummary(): Promise<HomeHeaderProps> {
+    try {
+      const response = await summaryDatabase.summary()
+
+      return {
+        total: numberToCurrency(response.input + response.output),
+        input: {
+          label: 'Entradas',
+          value: numberToCurrency(response.input),
+        },
+        output: {
+          label: 'Saídas',
+          value: numberToCurrency(response.output),
+        },
+      }
+    } catch (error) {
+      Alert.alert('Erro', 'Não foi possível carregar o resumo.')
+      console.log(error)
+    }
+  }
+
+  async function fetchData() {
+    const targetDataPromise = fetchTargets()
+    const dataSummaryPromise = fetchSummary()
+
+    const [targetData, dataSummary] = await Promise.all([
+      targetDataPromise,
+      dataSummaryPromise,
+    ])
+
+    setTargets(targetData)
+    setSummary(dataSummary)
+
+    setIsFetching(false)
+  }
+
   useFocusEffect(
     useCallback(() => {
-      fetchTargets()
+      fetchData()
     }, []),
   )
-
+  if (isFetching) {
+    return <Loading color={colors.blue[500]} size="large" />
+  }
 
   return (
     <>
       <View style={{ flex: 1 }}>
-        <StatusBar barStyle='light-content'/>
+        <StatusBar barStyle='light-content' />
         <HomeHeader data={summary} />
 
         <List
@@ -69,7 +100,7 @@ async function fetchTargets() {
         />
 
         <View style={{ padding: 24 }}>
-          
+
           <Button tittle='Criar nova meta' onPress={() => router.navigate("/target")} />
         </View>
       </View>

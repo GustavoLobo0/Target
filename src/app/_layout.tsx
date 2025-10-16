@@ -27,7 +27,7 @@ export default function Layout() {
         onInit={migrate}
         useSuspense
       >
-        <Stack screenOptions={{ headerShown: false, contentStyle: { backgroundColor: colors.white } }} /> 
+        <Stack screenOptions={{ headerShown: false, contentStyle: { backgroundColor: colors.white } }} />
       </SQLiteProvider>
     </Suspense>
   )
